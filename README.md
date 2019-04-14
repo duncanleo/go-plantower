@@ -1,7 +1,7 @@
 # go-plantower
-This is a command-line utility to read data off a Plantower sensor (serial-based).
+This is a command-line utility to read data off a Plantower sensor (serial-based). See releases for pre-built binaries.
 
-# Usage
+### Usage
 ```shell
 $ go-plantower -h
 Usage of go-plantower:
@@ -14,5 +14,5 @@ Usage of go-plantower:
     	time to wait before getting reading from sensor device (default 2)
 ```
 
-# Currently supported devices
+### Currently supported devices
 - PMS5003
