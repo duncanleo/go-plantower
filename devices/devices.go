@@ -1,11 +1,7 @@
 package devices
 
-import (
-	"github.com/tarm/serial"
-)
-
 // DeviceFuncs devices supported
-var DeviceFuncs = map[string]func(*serial.Port, map[string]interface{}) (Data, error){
+var DeviceFuncs = map[string]func(string, map[string]interface{}) (Data, error){
 	"pms5003": pms5003,
 }
 

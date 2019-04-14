@@ -8,10 +8,16 @@ import (
 	"github.com/tarm/serial"
 )
 
-func pms5003(s *serial.Port, opts map[string]interface{}) (Data, error) {
+func pms5003(device string, opts map[string]interface{}) (Data, error) {
 	var result Data
 	var err error
 	var waitTime = 2
+
+	c := &serial.Config{Name: device, Baud: 9600}
+	s, err := serial.OpenPort(c)
+	if err != nil {
+		return result, err
+	}
 
 	if wt, ok := opts["waitTime"]; ok {
 		waitTime = wt.(int)
