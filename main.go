@@ -44,24 +44,31 @@ func main() {
 				checkSumLow       = singleReadingBuf[31]
 			)
 
-			log.Printf(
-				"[DATA] CF=[PM1=%d PM2.5=%d PM10=%d] ATMOS=[PM1=%d PM2.5=%d PM10=%d] UNIT=%s NUM_PARTICLES=[0.3um=%d 0.5um=%d 1.0um=%d 2.5um=%d 5.0um=%d 10um=%d] CHECK=[High=%q Low=%q]\n",
-				cfPM001,
-				cfPM025,
-				cfPM100,
-				atmosPM1,
-				atmosPM25,
-				atmosPM10,
-				concUnit,
-				numParticles003um,
-				numParticles005um,
-				numParticles010um,
-				numParticles025um,
-				numParticles050um,
-				numParticles100um,
-				checkSumHigh,
-				checkSumLow,
-			)
+			var checkSum byte
+			for j := 0; j <= 29; j++ {
+				checkSum += singleReadingBuf[j]
+			}
+
+			if checkSumLow == checkSum { // Checksum matches
+				log.Printf(
+					"[DATA] CF=[PM1=%d PM2.5=%d PM10=%d] ATMOS=[PM1=%d PM2.5=%d PM10=%d] UNIT=%s NUM_PARTICLES=[0.3um=%d 0.5um=%d 1.0um=%d 2.5um=%d 5.0um=%d 10um=%d] CHECK=[High=%q Low=%q]\n",
+					cfPM001,
+					cfPM025,
+					cfPM100,
+					atmosPM1,
+					atmosPM25,
+					atmosPM10,
+					concUnit,
+					numParticles003um,
+					numParticles005um,
+					numParticles010um,
+					numParticles025um,
+					numParticles050um,
+					numParticles100um,
+					checkSumHigh,
+					checkSumLow,
+				)
+			}
 
 			numRead = 0
 			singleReadingBuf = make([]byte, 0)
