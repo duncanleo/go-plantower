@@ -31,5 +31,5 @@ func main() {
 		log.Fatal(err)
 	}
 	json, _ := json.Marshal(data)
-	fmt.Println(string(json))
+	fmt.Print(string(json))
 }
