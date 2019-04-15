@@ -18,6 +18,7 @@ func pms5003(device string, opts map[string]interface{}) (Data, error) {
 	if err != nil {
 		return result, err
 	}
+	defer s.Close()
 
 	if wt, ok := opts["waitTime"]; ok {
 		waitTime = wt.(int)
