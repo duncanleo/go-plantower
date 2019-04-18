@@ -89,19 +89,19 @@ func pms5003(device string, opts map[string]interface{}) (Data, error) {
 	}
 	if numRead == 32 {
 		// We have a complete frame!
-		result.CF.PM1 = int(singleReadingBuf[5])
-		result.CF.PM25 = int(singleReadingBuf[7])
-		result.CF.PM10 = int(singleReadingBuf[9])
-		result.Atmospheric.PM1 = int(singleReadingBuf[11])
-		result.Atmospheric.PM25 = int(singleReadingBuf[13])
-		result.Atmospheric.PM10 = int(singleReadingBuf[15])
+		result.CF.PM1 = hlBytesToInt(singleReadingBuf[4], singleReadingBuf[5])
+		result.CF.PM25 = hlBytesToInt(singleReadingBuf[6], singleReadingBuf[7])
+		result.CF.PM10 = hlBytesToInt(singleReadingBuf[8], singleReadingBuf[9])
+		result.Atmospheric.PM1 = hlBytesToInt(singleReadingBuf[10], singleReadingBuf[11])
+		result.Atmospheric.PM25 = hlBytesToInt(singleReadingBuf[12], singleReadingBuf[13])
+		result.Atmospheric.PM10 = hlBytesToInt(singleReadingBuf[14], singleReadingBuf[15])
 		result.ConcUnit = string(singleReadingBuf[17])
-		result.ParticleCount.PointThree = int(singleReadingBuf[19])
-		result.ParticleCount.PointFive = int(singleReadingBuf[21])
-		result.ParticleCount.One = int(singleReadingBuf[23])
-		result.ParticleCount.TwoPointFive = int(singleReadingBuf[25])
-		result.ParticleCount.Five = int(singleReadingBuf[27])
-		result.ParticleCount.Ten = int(singleReadingBuf[29])
+		result.ParticleCount.PointThree = hlBytesToInt(singleReadingBuf[18], singleReadingBuf[19])
+		result.ParticleCount.PointFive = hlBytesToInt(singleReadingBuf[20], singleReadingBuf[21])
+		result.ParticleCount.One = hlBytesToInt(singleReadingBuf[22], singleReadingBuf[23])
+		result.ParticleCount.TwoPointFive = hlBytesToInt(singleReadingBuf[24], singleReadingBuf[25])
+		result.ParticleCount.Five = hlBytesToInt(singleReadingBuf[26], singleReadingBuf[27])
+		result.ParticleCount.Ten = hlBytesToInt(singleReadingBuf[28], singleReadingBuf[29])
 
 		var (
 			checkSumHigh = singleReadingBuf[30]
