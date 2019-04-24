@@ -3,6 +3,7 @@ package devices
 import (
 	"errors"
 	"log"
+	"os"
 	"time"
 
 	"github.com/tarm/serial"
@@ -19,6 +20,8 @@ func pms5003(device string, opts map[string]interface{}) (Data, error) {
 		return result, err
 	}
 	defer s.Close()
+
+	var maxEndTime = time.Now().Add(time.Duration(waitTime+5) * time.Second)
 
 	if wt, ok := opts["waitTime"]; ok {
 		waitTime = wt.(int)
@@ -78,7 +81,7 @@ func pms5003(device string, opts map[string]interface{}) (Data, error) {
 	var singleReadingBuf []byte
 
 	numRead := 0
-	for numRead < 32 {
+	for numRead < 32 && maxEndTime.Sub(time.Now()) > 0 {
 		buf := make([]byte, 32)
 		n, err := s.Read(buf)
 		if err != nil {
@@ -121,8 +124,7 @@ func pms5003(device string, opts map[string]interface{}) (Data, error) {
 		singleReadingBuf = make([]byte, 0)
 	} else if numRead > 32 {
 		log.Println("Weird, we're not supposed to have a frame > 32 bytes. Ignoring.")
-		numRead = 0
-		singleReadingBuf = make([]byte, 0)
+		os.Exit(1)
 	}
 
 	// Sleep
