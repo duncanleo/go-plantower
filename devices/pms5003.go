@@ -21,8 +21,6 @@ func pms5003(device string, opts map[string]interface{}) (Data, error) {
 	}
 	defer s.Close()
 
-	var maxEndTime = time.Now().Add(time.Duration(waitTime+5) * time.Second)
-
 	if wt, ok := opts["waitTime"]; ok {
 		waitTime = wt.(int)
 	}
@@ -58,6 +56,8 @@ func pms5003(device string, opts map[string]interface{}) (Data, error) {
 	// Wait some time
 	time.Sleep(time.Duration(waitTime) * time.Second)
 
+	var maxEndTime = time.Now().Add(5 * time.Second)
+
 	// Flush any extra data, possibly left from active mode
 	err = s.Flush()
 	if err != nil {
@@ -90,6 +90,7 @@ func pms5003(device string, opts map[string]interface{}) (Data, error) {
 		numRead += n
 		singleReadingBuf = append(singleReadingBuf, buf[:n]...)
 	}
+
 	if numRead == 32 {
 		// We have a complete frame!
 		result.CF.PM1 = hlBytesToInt(singleReadingBuf[4], singleReadingBuf[5])
