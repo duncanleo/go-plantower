@@ -122,8 +122,8 @@ func pms5003(device string, opts map[string]interface{}) (Data, error) {
 
 		numRead = 0
 		singleReadingBuf = make([]byte, 0)
-	} else if numRead > 32 {
-		log.Println("Weird, we're not supposed to have a frame > 32 bytes. Ignoring.")
+	} else {
+		log.Printf("Read (%d != 32) bytes. Failing.\n", numRead)
 		os.Exit(1)
 	}
 
