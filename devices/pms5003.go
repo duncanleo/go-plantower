@@ -14,7 +14,7 @@ func pms5003(device string, opts map[string]interface{}) (Data, error) {
 	var err error
 	var waitTime = 2
 
-	c := &serial.Config{Name: device, Baud: 9600}
+	c := &serial.Config{Name: device, Baud: 9600, ReadTimeout: time.Millisecond * 500}
 	s, err := serial.OpenPort(c)
 	if err != nil {
 		return result, err
